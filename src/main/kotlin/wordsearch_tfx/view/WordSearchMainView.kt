@@ -3,6 +3,7 @@ package wordsearch_tfx.view
 import javafx.scene.input.KeyCombination
 import wordsearch_tfx.app.Styles
 import tornadofx.*
+import tornadofx.WizardStyles.Companion.graphic
 
 class MainView : View("Word Search Puzzle Builder in TornadoFX") {
     override val root = borderpane() {
@@ -38,10 +39,23 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                 }
             }
             //button("This will be a toolbar")
-            toolbar() {
-
-                button(graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/place_word.gif?raw=true"))
-
+            toolbar {
+                button {
+                    graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/place_word.gif?raw=true")
+                    tooltip("Place word on grid")
+                }
+                button {
+                    graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/place_random.gif?raw=true")
+                    tooltip("Place word randomly on grid")
+                }
+                button {
+                    graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/unplace_word.gif?raw=true")
+                    tooltip("Unplace (remove) word from grid")
+                }
+                button {
+                    graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/add_word.gif?raw=true")
+                    tooltip("Add word to word list")
+                }
             }
 
             /*
