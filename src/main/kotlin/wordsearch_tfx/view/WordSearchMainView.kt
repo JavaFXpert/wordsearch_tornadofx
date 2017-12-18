@@ -1,59 +1,89 @@
 package wordsearch_tfx.view
 
+import javafx.beans.property.SimpleBooleanProperty
 import javafx.scene.input.KeyCombination
 import wordsearch_tfx.app.Styles
 import tornadofx.*
 import tornadofx.WizardStyles.Companion.graphic
+import wordsearch_tfx.model.WordGridModel
 
 class MainView : View("Word Search Puzzle Builder in TornadoFX") {
-    override val root = borderpane() {
+    private val wgModel: WordGridModel by inject()
+
+    override val root = borderpane {
+        //TODO: override start in the app class and configure the stage
+        setPrefSize(750.0, 450.0 )
+
         top = vbox {
             menubar {
                 menu("Grid") {
                     item("Place Word...",
                             "Ctrl+P",
-                            imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/place_word.gif?raw=true"))
-                    //TODO: How best to use local image resources?
+                            imageview("/place_word.gif")) {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
                     item("Place Word Randomly...",
                             "Ctrl+R",
-                            imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/place_random.gif?raw=true"))
-                    item("Place All Words Randomly...", "Alt+P")
+                            imageview("/place_random.gif")) {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
+                    item("Place All Words Randomly...", "Alt+P") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
                     separator()
                     item("Unplace Word...",
                             "Ctrl+U",
-                            imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/unplace_word.gif?raw=true"))
-                    item("Unplace All Words...", "Alt+U")
-                    checkmenuitem("Show Fill Letters", KeyCombination.keyCombination("Ctrl+F"))
+                            imageview("/unplace_word.gif")) {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
+                    item("Unplace All Words...", "Alt+U") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
+                    checkmenuitem("Show Fill Letters",
+                            KeyCombination.keyCombination("Ctrl+F")) {
+                        selectedProperty().bindBidirectional(wgModel.fillLettersOnGrid)
+                    }
                     separator()
-                    item("Exit")
+                    item("Exit").action {
+                        System.exit(0)
+                    }
                 }
                 menu("WordList") {
                     item("Add Word",
                             "Shortcut+A",
-                            imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/add_word.gif?raw=true"))
+                            imageview("/add_word.gif"))
                     item("Delete Word",
-                            "Shortcut+D")
+                            "Shortcut+D") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
                 }
                 menu("Help") {
                     item("About Word Search Puzzle Builder...")
                 }
             }
-            //button("This will be a toolbar")
             toolbar {
+                //TODO: Style buttons to remove borders
                 button {
-                    graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/place_word.gif?raw=true")
-                    tooltip("Place word on grid")
+                    //TODO: Use just imageview("/place_word.gif") when TornadoFX 1.7.14 is released
+                    imageview("/place_word.gif")
+                    tooltip("Place word on grid") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
                 }
                 button {
-                    graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/place_random.gif?raw=true")
-                    tooltip("Place word randomly on grid")
+                    imageview("/place_random.gif")
+                    tooltip("Place word randomly on grid") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
                 }
                 button {
-                    graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/unplace_word.gif?raw=true")
-                    tooltip("Unplace (remove) word from grid")
+                    imageview("/unplace_word.gif")
+                    tooltip("Unplace (remove) word from grid") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                    }
                 }
                 button {
-                    graphic = imageview("https://github.com/JavaFXpert/wordsearch_jfx/blob/master/images/add_word.gif?raw=true")
+                    imageview("/add_word.gif")
                     tooltip("Add word to word list")
                 }
             }
