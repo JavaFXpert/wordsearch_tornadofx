@@ -5,10 +5,12 @@ import javafx.scene.input.KeyCombination
 import wordsearch_tfx.app.Styles
 import tornadofx.*
 import tornadofx.WizardStyles.Companion.graphic
+import wordsearch_tfx.controller.WordSearchHandlers
 import wordsearch_tfx.model.WordGridModel
 
 class MainView : View("Word Search Puzzle Builder in TornadoFX") {
     private val wgModel: WordGridModel by inject()
+    private val wsHandlers: WordSearchHandlers by inject()
 
     override val root = borderpane {
         //TODO: override start in the app class and configure the stage
@@ -19,30 +21,25 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                 menu("Grid") {
                     item("Place Word...",
                             "Ctrl+P",
-                            imageview("/place_word.gif")) {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                    }
+                            imageview("/place_word.gif"))
+                            .disableWhen(wgModel.fillLettersOnGrid)
+
                     item("Place Word Randomly...",
                             "Ctrl+R",
-                            imageview("/place_random.gif")) {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                    }
-                    item("Place All Words Randomly...", "Alt+P") {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                    }
+                            imageview("/place_random.gif"))
+                            .disableWhen(wgModel.fillLettersOnGrid)
+                    item("Place All Words Randomly...", "Alt+P")
+                            .disableWhen(wgModel.fillLettersOnGrid)
                     separator()
                     item("Unplace Word...",
                             "Ctrl+U",
-                            imageview("/unplace_word.gif")) {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                    }
-                    item("Unplace All Words...", "Alt+U") {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                    }
+                            imageview("/unplace_word.gif"))
+                            .disableWhen(wgModel.fillLettersOnGrid)
+                    item("Unplace All Words...", "Alt+U")
+                            .disableWhen(wgModel.fillLettersOnGrid)
                     checkmenuitem("Show Fill Letters",
-                            KeyCombination.keyCombination("Ctrl+F")) {
-                        selectedProperty().bindBidirectional(wgModel.fillLettersOnGrid)
-                    }
+                            KeyCombination.keyCombination("Ctrl+F"))
+                            .selectedProperty().bindBidirectional(wgModel.fillLettersOnGrid)
                     separator()
                     item("Exit").action {
                         System.exit(0)
@@ -53,9 +50,8 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                             "Shortcut+A",
                             imageview("/add_word.gif"))
                     item("Delete Word",
-                            "Shortcut+D") {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                    }
+                            "Shortcut+D")
+                            .disableWhen(wgModel.fillLettersOnGrid)
                 }
                 menu("Help") {
                     item("About Word Search Puzzle Builder...")
@@ -64,7 +60,6 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
             toolbar {
                 //TODO: Style buttons to remove borders
                 button {
-                    //TODO: Use just imageview("/place_word.gif") when TornadoFX 1.7.14 is released
                     imageview("/place_word.gif")
                     tooltip("Place word on grid") {
                         disableWhen(wgModel.fillLettersOnGrid)
