@@ -21,22 +21,31 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                 menu("Grid") {
                     item("Place Word...",
                             "Ctrl+P",
-                            imageview("/place_word.gif"))
-                            .disableWhen(wgModel.fillLettersOnGrid)
-
+                            imageview("/place_word.gif")) {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::gridPlaceWord)
+                    }
                     item("Place Word Randomly...",
                             "Ctrl+R",
-                            imageview("/place_random.gif"))
-                            .disableWhen(wgModel.fillLettersOnGrid)
-                    item("Place All Words Randomly...", "Alt+P")
-                            .disableWhen(wgModel.fillLettersOnGrid)
+                            imageview("/place_random.gif")) {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::gridPlaceWordRandomly)
+                    }
+                    item("Place All Words Randomly...", "Alt+P") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::gridPlaceAllWords)
+                    }
                     separator()
                     item("Unplace Word...",
                             "Ctrl+U",
-                            imageview("/unplace_word.gif"))
-                            .disableWhen(wgModel.fillLettersOnGrid)
-                    item("Unplace All Words...", "Alt+U")
-                            .disableWhen(wgModel.fillLettersOnGrid)
+                            imageview("/unplace_word.gif")) {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::gridUnplaceWord)
+                    }
+                    item("Unplace All Words...", "Alt+U") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::gridUnplaceAllWords)
+                    }
                     checkmenuitem("Show Fill Letters",
                             KeyCombination.keyCombination("Ctrl+F"))
                             .selectedProperty().bindBidirectional(wgModel.fillLettersOnGrid)
