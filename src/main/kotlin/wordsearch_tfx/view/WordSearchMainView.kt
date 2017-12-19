@@ -2,13 +2,14 @@ package wordsearch_tfx.view
 
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.scene.input.KeyCombination
+import todomvcfx.tornadofx.views.WordListView
 import wordsearch_tfx.app.Styles
 import tornadofx.*
 import tornadofx.WizardStyles.Companion.graphic
 import wordsearch_tfx.controller.WordSearchController
 import wordsearch_tfx.model.WordGridModel
 
-class MainView : View("Word Search Puzzle Builder in TornadoFX") {
+class WordSearchMainView : View("Word Search Puzzle Builder in TornadoFX") {
     private val wgModel: WordGridModel by inject()
     private val wsController: WordSearchController by inject()
 
@@ -100,12 +101,10 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                 }
             }
         }
-        center = hbox {
-            WordGridView::class
-            vbox {
-                UnplacedWordsListView::class
-                PlacedWordsListView::class
-            }
+
+        center = borderpane {
+            center (WordGridView::class)
+            right (WordListView::class)
         }
     }
 }
