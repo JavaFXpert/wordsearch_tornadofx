@@ -100,9 +100,12 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                 }
             }
         }
-        center = vbox {
-            //canvas
-            //borderpane
+        center = hbox {
+            WordGridView::class
+            vbox {
+                UnplacedWordsListView::class
+                PlacedWordsListView::class
+            }
         }
     }
 }
