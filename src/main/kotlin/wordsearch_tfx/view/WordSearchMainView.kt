@@ -56,11 +56,14 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                 }
                 menu("WordList") {
                     item("Add Word",
-                            "Shortcut+A",
+                            "Ctrl+A",
                             imageview("/add_word.gif"))
+                            .action(wsHandlers::wordListAddWord)
                     item("Delete Word",
-                            "Shortcut+D")
-                            .disableWhen(wgModel.fillLettersOnGrid)
+                            "Ctrl+D") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::wordListDeleteWord)
+                    }
                 }
                 menu("Help") {
                     item("About Word Search Puzzle Builder...")
@@ -72,23 +75,27 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                     imageview("/place_word.gif")
                     tooltip("Place word on grid") {
                         disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::gridPlaceWord)
                     }
                 }
                 button {
                     imageview("/place_random.gif")
                     tooltip("Place word randomly on grid") {
                         disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::gridPlaceWordRandomly)
                     }
                 }
                 button {
                     imageview("/unplace_word.gif")
                     tooltip("Unplace (remove) word from grid") {
                         disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsHandlers::gridUnplaceWord)
                     }
                 }
                 button {
                     imageview("/add_word.gif")
                     tooltip("Add word to word list")
+                    action(wsHandlers::wordListAddWord)
                 }
             }
 

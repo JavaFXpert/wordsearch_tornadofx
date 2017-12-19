@@ -18,4 +18,10 @@ class WordSearchHandlers: Controller() {
     fun gridUnplaceAllWords() {
         println("In gridUnplaceAllWords");
     }
+    fun wordListAddWord() {
+        println("In wordListAddWord");
+    }
+    fun wordListDeleteWord() {
+        println("In wordListDeleteWord");
+    }
 }
