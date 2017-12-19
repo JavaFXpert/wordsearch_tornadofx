@@ -24,4 +24,9 @@ class WordSearchHandlers: Controller() {
     fun wordListDeleteWord() {
         println("In wordListDeleteWord");
     }
+    fun helpAbout() {
+        println("In helpAbout");
+        information("About Word Search Puzzle Builder",
+                "A TornadoFX example program by James L. Weaver")
+    }
 }
