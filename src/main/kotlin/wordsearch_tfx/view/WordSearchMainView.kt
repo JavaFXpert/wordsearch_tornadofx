@@ -5,12 +5,12 @@ import javafx.scene.input.KeyCombination
 import wordsearch_tfx.app.Styles
 import tornadofx.*
 import tornadofx.WizardStyles.Companion.graphic
-import wordsearch_tfx.controller.WordSearchHandlers
+import wordsearch_tfx.controller.WordSearchController
 import wordsearch_tfx.model.WordGridModel
 
 class MainView : View("Word Search Puzzle Builder in TornadoFX") {
     private val wgModel: WordGridModel by inject()
-    private val wsHandlers: WordSearchHandlers by inject()
+    private val wsController: WordSearchController by inject()
 
     override val root = borderpane {
         //TODO: override start in the app class and configure the stage
@@ -23,28 +23,28 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                             "Ctrl+P",
                             imageview("/place_word.gif")) {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::gridPlaceWord)
+                        action(wsController::gridPlaceWord)
                     }
                     item("Place Word Randomly...",
                             "Ctrl+R",
                             imageview("/place_random.gif")) {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::gridPlaceWordRandomly)
+                        action(wsController::gridPlaceWordRandomly)
                     }
                     item("Place All Words Randomly...", "Alt+P") {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::gridPlaceAllWords)
+                        action(wsController::gridPlaceAllWords)
                     }
                     separator()
                     item("Unplace Word...",
                             "Ctrl+U",
                             imageview("/unplace_word.gif")) {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::gridUnplaceWord)
+                        action(wsController::gridUnplaceWord)
                     }
                     item("Unplace All Words...", "Alt+U") {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::gridUnplaceAllWords)
+                        action(wsController::gridUnplaceAllWords)
                     }
                     checkmenuitem("Show Fill Letters",
                             KeyCombination.keyCombination("Ctrl+F"))
@@ -58,16 +58,16 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                     item("Add Word",
                             "Ctrl+A",
                             imageview("/add_word.gif"))
-                            .action(wsHandlers::wordListAddWord)
+                            .action(wsController::wordListAddWord)
                     item("Delete Word",
                             "Ctrl+D") {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::wordListDeleteWord)
+                        action(wsController::wordListDeleteWord)
                     }
                 }
                 menu("Help") {
                     item("About Word Search Puzzle Builder...")
-                            .action(wsHandlers::helpAbout)
+                            .action(wsController::helpAbout)
                 }
             }
             toolbar {
@@ -76,29 +76,33 @@ class MainView : View("Word Search Puzzle Builder in TornadoFX") {
                     imageview("/place_word.gif")
                     tooltip("Place word on grid") {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::gridPlaceWord)
+                        action(wsController::gridPlaceWord)
                     }
                 }
                 button {
                     imageview("/place_random.gif")
                     tooltip("Place word randomly on grid") {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::gridPlaceWordRandomly)
+                        action(wsController::gridPlaceWordRandomly)
                     }
                 }
                 button {
                     imageview("/unplace_word.gif")
                     tooltip("Unplace (remove) word from grid") {
                         disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsHandlers::gridUnplaceWord)
+                        action(wsController::gridUnplaceWord)
                     }
                 }
                 button {
                     imageview("/add_word.gif")
                     tooltip("Add word to word list")
-                    action(wsHandlers::wordListAddWord)
+                    action(wsController::wordListAddWord)
                 }
             }
+        }
+        center = vbox {
+            //canvas
+            //borderpane
         }
     }
 }

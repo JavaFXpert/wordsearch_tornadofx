@@ -2,7 +2,7 @@ package wordsearch_tfx.controller
 
 import tornadofx.*
 
-class WordSearchHandlers: Controller() {
+class WordSearchController: Controller() {
     fun gridPlaceWord() {
         println("In gridPlaceWord");
     }
