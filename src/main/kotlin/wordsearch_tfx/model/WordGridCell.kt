@@ -8,6 +8,6 @@ class WordGridCell() {
     var cellLetter = " ";
     val fillLetter =
             SimpleStringProperty(Character.forDigit(
-                    (Math.round(Math.random() * 26 + 10)).toInt(), 36).toString().toUpperCase())
+                    (Math.floor(Math.random() * 26 + 10)).toInt(), 36).toString().toUpperCase())
 
 }
