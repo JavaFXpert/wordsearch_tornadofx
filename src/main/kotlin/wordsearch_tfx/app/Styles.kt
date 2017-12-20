@@ -65,7 +65,7 @@ class Styles : Stylesheet() {
         }
 
         title {
-            fontSize = 3.em
+            fontSize = 2.em
             textFill = c(175, 47, 47, 0.5)
         }
 
@@ -97,7 +97,7 @@ class Styles : Stylesheet() {
         }
 
         wordGridView {
-            padding = box(40.px, 10.px, 10.px, 20.px)
+            padding = box(10.px, 10.px, 10.px, 20.px)
         }
     }
 }
