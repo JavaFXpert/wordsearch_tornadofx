@@ -22,6 +22,7 @@ class Styles : Stylesheet() {
         val footer by cssclass()
 
         val wordGridView by cssclass()
+        val gridCellLetter by cssclass()
 
         fun closeIcon() = FontAwesomeIconView(FontAwesomeIcon.CLOSE).apply {
             glyphSize = 22
@@ -98,6 +99,11 @@ class Styles : Stylesheet() {
 
         wordGridView {
             padding = box(10.px, 10.px, 10.px, 20.px)
+        }
+
+        gridCellLetter {
+            fontSize = 20.px
+            fontWeight = FontWeight.BOLD
         }
     }
 }
