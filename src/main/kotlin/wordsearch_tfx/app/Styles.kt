@@ -21,6 +21,8 @@ class Styles : Stylesheet() {
         val header by cssclass()
         val footer by cssclass()
 
+        val wordGridView by cssclass()
+
         fun closeIcon() = FontAwesomeIconView(FontAwesomeIcon.CLOSE).apply {
             glyphSize = 22
             addClass(closeIcon)
@@ -92,6 +94,10 @@ class Styles : Stylesheet() {
             star {
                 spacing = 10.px
             }
+        }
+
+        wordGridView {
+            padding = box(40.px, 10.px, 10.px, 20.px)
         }
     }
 }

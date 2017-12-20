@@ -104,6 +104,7 @@ class WordSearchMainView : View("Word Search Puzzle Builder in TornadoFX") {
 
         center = borderpane {
             center (WordGridView::class)
+                    .addClass(Styles.wordGridView)
             right (WordListView::class)
         }
     }
