@@ -20,33 +20,16 @@ class WordSearchMainView : View("Word Search Puzzle Builder in TornadoFX") {
         top = vbox {
             menubar {
                 menu("Grid") {
-                    item("Place Word...",
-                            "Ctrl+P",
-                            imageview("/place_word.gif")) {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsController::gridPlaceWord)
-                    }
-                    item("Place Word Randomly...",
-                            "Ctrl+R",
-                            imageview("/place_random.gif")) {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsController::gridPlaceWordRandomly)
-                    }
-                    item("Place All Words Randomly...", "Alt+P") {
+                    /*
+                    item("Place All Words Randomly", "Ctrl+P") {
                         disableWhen(wgModel.fillLettersOnGrid)
                         action(wsController::gridPlaceAllWords)
                     }
-                    separator()
-                    item("Unplace Word...",
-                            "Ctrl+U",
-                            imageview("/unplace_word.gif")) {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsController::gridUnplaceWord)
-                    }
-                    item("Unplace All Words...", "Alt+U") {
+                    item("Unplace All Words", "Ctrl+U") {
                         disableWhen(wgModel.fillLettersOnGrid)
                         action(wsController::gridUnplaceAllWords)
                     }
+                    */
                     checkmenuitem("Show Fill Letters",
                             KeyCombination.keyCombination("Ctrl+F"))
                             .selectedProperty().bindBidirectional(wgModel.fillLettersOnGrid)
@@ -55,31 +38,14 @@ class WordSearchMainView : View("Word Search Puzzle Builder in TornadoFX") {
                         System.exit(0)
                     }
                 }
-                menu("WordList") {
-                    item("Add Word",
-                            "Ctrl+A",
-                            imageview("/add_word.gif"))
-                            .action(wsController::wordListAddWord)
-                    item("Delete Word",
-                            "Ctrl+D") {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsController::wordListDeleteWord)
-                    }
-                }
                 menu("Help") {
                     item("About Word Search Puzzle Builder...")
                             .action(wsController::helpAbout)
                 }
             }
+            /*
             toolbar {
                 //TODO: Style buttons to remove borders
-                button {
-                    imageview("/place_word.gif")
-                    tooltip("Place word on grid") {
-                        disableWhen(wgModel.fillLettersOnGrid)
-                        action(wsController::gridPlaceWord)
-                    }
-                }
                 button {
                     imageview("/place_random.gif")
                     tooltip("Place word randomly on grid") {
@@ -94,12 +60,16 @@ class WordSearchMainView : View("Word Search Puzzle Builder in TornadoFX") {
                         action(wsController::gridUnplaceWord)
                     }
                 }
+                //TODO: Implement a toggle button for show fill letters
                 button {
-                    imageview("/add_word.gif")
-                    tooltip("Add word to word list")
-                    action(wsController::wordListAddWord)
+                    imageview("/place_word.gif")
+                    tooltip("Show Fill Letters") {
+                        disableWhen(wgModel.fillLettersOnGrid)
+                        action(wsController::gridPlaceWord)
+                    }
                 }
             }
+            */
         }
 
         center = borderpane {
