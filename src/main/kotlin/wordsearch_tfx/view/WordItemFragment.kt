@@ -35,9 +35,12 @@ class WordItemFragment : ListCellFragment<WordItem>() {
             hgrow = Priority.ALWAYS
             removeWhen { editingProperty.not() }
             whenVisible { requestFocus() }
-            action { commitEdit(item) }
+            action {
+                item.text = item.text.toUpperCase()
+                commitEdit(item)
+            }
         }
-        button(graphic = Styles.    closeIcon()) {
+        button(graphic = Styles.closeIcon()) {
             removeWhen { parent.hoverProperty().not().or(editingProperty) }
             action { store.removeWord(item) }
         }
