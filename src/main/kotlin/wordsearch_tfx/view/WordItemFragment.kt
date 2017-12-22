@@ -6,9 +6,11 @@ import wordsearch_tfx.controller.WordStore
 import wordsearch_tfx.model.WordItem
 import wordsearch_tfx.model.WordItemModel
 import tornadofx.*
+import wordsearch_tfx.model.WordGridModel
 
 class WordItemFragment : ListCellFragment<WordItem>() {
-    val store: WordStore by inject()
+    private val wgModel: WordGridModel by inject()
+    private val store: WordStore by inject()
     val word = WordItemModel(itemProperty)
 
     override val root = hbox {
@@ -42,7 +44,13 @@ class WordItemFragment : ListCellFragment<WordItem>() {
         }
         button(graphic = Styles.closeIcon()) {
             removeWhen { parent.hoverProperty().not().or(editingProperty) }
-            action { store.removeWord(item) }
+            action {
+                store.removeWord(item)
+                if (item.placed) {
+                    // Remove word from grid
+                    wgModel.unplaceWord(item)
+                }
+            }
         }
     }
 
