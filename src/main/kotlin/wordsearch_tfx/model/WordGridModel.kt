@@ -250,7 +250,24 @@ class WordGridModel(): ViewModel() {
         println("In unplaceWord function for word: ${wordItem.text} (not implemented yet)")
 
         //TODO: Implement this function
+        var xPos = wordItem.gridCol;
+        var yPos = wordItem.gridRow;
+        var xIncr = getXIncr(wordItem.wordOrientation);
+        var yIncr = getYIncr(wordItem.wordOrientation);
 
+        val text = wordItem.text
+        for (idx in 0 until text.length) {
+            wgCells.get(yPos * cols + xPos).cellLetter.set(" ")
+
+            // Dissasociate this WordItem with the cell on the grid view
+            //TODO: Verify that they are being disassociated (removed)
+            wgCells.get(yPos * cols + xPos).wordItems.remove(wordItem)
+
+            xPos += xIncr
+            yPos += yIncr
+        }
+
+        clearGridCells()
         refreshWordsOnGrid()
     }
 
