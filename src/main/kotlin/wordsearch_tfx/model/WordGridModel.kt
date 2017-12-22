@@ -247,9 +247,6 @@ class WordGridModel(): ViewModel() {
      * list. It only unplaces it from the grid, marking it as not placed.
      */
     fun unplaceWord(wordItem: WordItem) {
-        println("In unplaceWord function for word: ${wordItem.text} (not implemented yet)")
-
-        //TODO: Implement this function
         var xPos = wordItem.gridCol;
         var yPos = wordItem.gridRow;
         var xIncr = getXIncr(wordItem.wordOrientation);
