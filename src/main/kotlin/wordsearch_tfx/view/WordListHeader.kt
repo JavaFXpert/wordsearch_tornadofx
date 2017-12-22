@@ -3,9 +3,11 @@ package wordsearch_tfx.view
 import wordsearch_tfx.app.Styles
 import wordsearch_tfx.controller.WordStore
 import tornadofx.*
+import wordsearch_tfx.model.WordGridModel
 
 class WordListHeader : View() {
-    val store: WordStore by inject()
+    private val wgModel: WordGridModel by inject()
+    private val store: WordStore by inject()
     val allDone = booleanBinding(store.words.items) { all { it.placed } }
 
     override val root = vbox {
@@ -27,5 +29,6 @@ class WordListHeader : View() {
                 }
             }
         }
+        disableWhen(wgModel.fillLettersOnGrid)
     }
 }
