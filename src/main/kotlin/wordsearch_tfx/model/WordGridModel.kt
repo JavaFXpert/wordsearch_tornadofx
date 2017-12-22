@@ -267,45 +267,4 @@ class WordGridModel(): ViewModel() {
         clearGridCells()
         refreshWordsOnGrid()
     }
-
-    /*
-    operation WordGridModel.unplaceWord(word) {
-        var wge = getGridEntryByWord(word);
-        if (wge == null) {
-            // Word not found in WordGridModel word list
-            return false;
-        }
-        else {
-            if (not wge.placed) {
-                // Word is already unplaced
-                return false;
-            }
-        }
-        var xPos = wge.column;
-        var yPos = wge.row;
-        var xIncr = getXIncr(wge.direction);
-        var yIncr = getYIncr(wge.direction);
-
-        var i = 0;
-        while (i < word.length()) {
-            gridCells[yPos * columns + xPos].cellLetter = SPACE:String;
-
-            // Dissasociate this WordGridEntry with the cell on the grid view
-            var wges = gridCells[yPos * columns + xPos].wordEntries;
-            delete wges[w | w == wge];
-
-            xPos += xIncr;
-            yPos += yIncr;
-            i++;
-        }
-        insert wge into unplacedGridEntries;
-        delete placedGridEntries[w | w == wge];
-        wge.placed = false;
-
-        initializeGrid();
-        refreshWordsOnGrid();
-        return true;
-    }
-    */
-
 }
