@@ -37,7 +37,7 @@ class WordItemFragment : ListCellFragment<WordItem>() {
             whenVisible { requestFocus() }
             action { commitEdit(item) }
         }
-        button(graphic = Styles.closeIcon()) {
+        button(graphic = Styles.    closeIcon()) {
             removeWhen { parent.hoverProperty().not().or(editingProperty) }
             action { store.removeWord(item) }
         }

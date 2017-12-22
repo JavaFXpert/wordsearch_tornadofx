@@ -5,8 +5,11 @@ import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.value.ObservableBooleanValue
 import wordsearch_tfx.model.WordOrientation.*
 import tornadofx.*
+import wordsearch_tfx.controller.WordStore
 
 class WordGridModel(): ViewModel() {
+    private val wordStore = find(WordStore::class)
+
     val rows: Int = 9
     val cols: Int = 9
     val numWordOrientations = 4
@@ -28,9 +31,11 @@ class WordGridModel(): ViewModel() {
                 if (e is BooleanProperty && e.getValue()) {
                     clearGridCells()
                     copyFillLettersToGrid()
+                    refreshWordsOnGrid()
                 }
                 else {
                     clearGridCells()
+                    refreshWordsOnGrid()
                 }
             }
         }
@@ -209,16 +214,12 @@ class WordGridModel(): ViewModel() {
      * fill letters, the placed words need to be put back on the grid.
      */
     private fun refreshWordsOnGrid() {
-        //TODO: Ascertain best way to get collection of place words from WordStore
-    }
+        val itemsPlaced = wordStore.words.items.filtered{it.placed}
 
-    /*
-    operation WordGridModel.refreshWordsOnGrid() {
-        for (i in [0..sizeof placedGridEntries - 1]) {
-            placeWordGridEntry(placedGridEntries[i]);
+        for (wordItem in itemsPlaced) {
+            placeWordGridEntry(wordItem)
         }
     }
-    */
 
     /**
      * This method takes a WordGridEntry and places each letter in the word onto
@@ -247,7 +248,10 @@ class WordGridModel(): ViewModel() {
      */
     fun unplaceWord(wordItem: WordItem) {
         println("In unplaceWord function for word: ${wordItem.text} (not implemented yet)")
+
         //TODO: Implement this function
+
+        refreshWordsOnGrid()
     }
 
     /*
