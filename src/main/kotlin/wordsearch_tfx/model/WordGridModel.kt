@@ -10,8 +10,8 @@ import wordsearch_tfx.controller.WordStore
 class WordGridModel(): ViewModel() {
     private val wordStore = find(WordStore::class)
 
-    val rows: Int = 9
-    val cols: Int = 9
+    val rows: Int = 12
+    val cols: Int = 12
     val numWordOrientations = 4
 
     val fillLettersOnGrid = SimpleBooleanProperty(false)
@@ -84,6 +84,7 @@ class WordGridModel(): ViewModel() {
      * available position for a word before giving up and returning false.
      * If successful it places the word and returns true.
      */
+    //TODO: Rework this algorithm to cease unnecessarily iterating over all rows and cols
     //TODO: Perhaps throw an exception if unsuccessful instead of returning false
     fun placeWord(word: WordItem): Boolean {
         var success: Boolean
