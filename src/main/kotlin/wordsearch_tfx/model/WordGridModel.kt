@@ -91,11 +91,10 @@ class WordGridModel(): ViewModel() {
         val startingCol = (Math.random() * cols).toInt()
         for (row in 0 until rows) {
             for (col in 0 until cols) {
-                val startingOrientId = Math.random().toInt() * numWordOrientations
+                val startingOrientId = (Math.random() * numWordOrientations).toInt()
                 for (d in 0 until numWordOrientations) {
                     val orientId = (startingOrientId + d) % numWordOrientations
 
-                    //TODO: get WordOrientation by Id
                     val wordOrientation = getWordOrientationById(orientId)
                     success = placeWordSpecific(word,
                             (startingRow + row) % rows,
