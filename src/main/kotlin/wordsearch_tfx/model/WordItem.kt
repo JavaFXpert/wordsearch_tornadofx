@@ -7,11 +7,13 @@ import javafx.beans.property.ObjectProperty
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
 import tornadofx.*
+import wordsearch_tfx.controller.WordSearchController
 import java.util.*
 import wordsearch_tfx.model.WordOrientation.*
 
 class WordItem(text: String) {
     private val wgModel = find(WordGridModel::class)
+    private val wsController = find(WordSearchController::class)
     val id = UUID.randomUUID()
 
     val textProperty = SimpleStringProperty(text)
@@ -30,11 +32,16 @@ class WordItem(text: String) {
             e -> run {
                 if (e is BooleanProperty && e.getValue()) {
                     // Place word randomly on grid
-                    wgModel.placeWord(this@WordItem)
+                    if (!wgModel.placeWord(this@WordItem)) {
+                        wsController.showWordNotPlacedMessage(this@WordItem)
+                        this@WordItem.placed = false
+                        //TODO: Make the listview reflect the checked state of the
+                        //      unplaced word (it currently remains checked)
+                    }
                 }
                 else {
                     // Remove word from grid
-                    println("Removing word ${this@WordItem} from grid")
+                    wgModel.unplaceWord(this@WordItem)
                 }
             }
         }

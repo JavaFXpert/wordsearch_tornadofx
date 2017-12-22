@@ -1,6 +1,7 @@
 package wordsearch_tfx.controller
 
 import tornadofx.*
+import wordsearch_tfx.model.WordItem
 
 class WordSearchController: Controller() {
     fun gridPlaceWord() {
@@ -28,5 +29,10 @@ class WordSearchController: Controller() {
         println("In helpAbout");
         information("About Word Search Puzzle Builder",
                 "A TornadoFX example program by James L. Weaver")
+    }
+    fun showWordNotPlacedMessage(wordItem: WordItem) {
+        println("In wordNotPlaced");
+        error("Word not placed",
+                "The word: ${wordItem.text} was not successfully placed")
     }
 }

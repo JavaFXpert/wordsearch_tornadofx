@@ -128,41 +128,6 @@ class WordGridModel(): ViewModel() {
             return true
         }
     }
-    /*
-    operation WordGridModel.placeWordSpecific(word, row, column, direction) {
-        // Make sure that the word is in the WordGridEntry array
-        var wge = getGridEntryByWord(word);
-
-        if (wge == null) {
-            // Word not found in word lists
-            return false;
-        }
-        else {
-            if (wge.placed) {
-                // Word is already placed
-                return false;
-            }
-        }
-
-        // Check to make sure that the word may be placed there
-        if (not canPlaceWordSpecific(word, row, column, direction,
-        DEFAULT_LOOK:WordGridRect)) {
-            return false;
-        }
-
-        // Word can be placed, so place it now
-        wge.row = row;
-        wge.column = column;
-        wge.direction = direction;
-        placeWordGridEntry(wge);
-
-        delete unplacedGridEntries[w | w == wge];
-        insert wge into placedGridEntries;
-        wge.placed = true;
-
-        return true;
-    }
-    */
 
     /**
      * Checks to see if a word can be placed on the grid at a specified location
@@ -204,58 +169,6 @@ class WordGridModel(): ViewModel() {
         }
         return canPlaceWord
     }
-    /*
-    operation WordGridModel.canPlaceWordSpecific(word, row, column, direction,
-    cellAppearance) {
-        var xPos = column;
-        var yPos = row;
-
-        // amount to increment in each direction for subsequent letters
-        var xIncr = 0;
-        var yIncr = 0;
-
-        var canPlaceWord = true;
-
-        // Check to make sure that the word may be placed there
-        xIncr = getXIncr(direction);
-        yIncr = getYIncr(direction);
-
-        // Make all cells in the grid have the default appearance
-        highlightWordsOnCell(NO_CELL:Integer);
-
-        // Make sure that the word can be placed
-        for (i in [0.. word.length() - 1]) {
-            if (xPos > columns - 1 or yPos > rows - 1 or xPos < 0 or yPos <0) {
-                // The word can't be placed because one of the letters is off the grid
-                canPlaceWord = false;
-                break;
-            }
-            // See if the letter being placed is either a space or the same letter
-            else if ((gridCells[yPos * columns + xPos].cellLetter <> SPACE:String) and
-                    (gridCells[yPos * columns + xPos].cellLetter <> word.substring(i, i+1))) {
-                // The word can't be placed because of a conflict with another
-                // letter on the grid
-                canPlaceWord = false;
-            }
-            if (cellAppearance == DRAGGING_LOOK:WordGridRect) {
-                gridCells[yPos * columns + xPos].appearance = DRAGGING_LOOK;
-            }
-            else if (cellAppearance == CANT_DROP_LOOK:WordGridRect) {
-                gridCells[yPos * columns + xPos].appearance = CANT_DROP_LOOK;
-            }
-            else if (i == 0) {
-                // This is the first letter of the word
-                gridCells[yPos * columns + xPos].appearance = DEFAULT_FIRST_LETTER_LOOK;
-            }
-            else {
-                gridCells[yPos * columns + xPos].appearance = DEFAULT_LOOK;
-            }
-            xPos += xIncr;
-            yPos += yIncr;
-        }
-        return canPlaceWord;
-    }
-    */
 
     /**
      * This method calculates the number that should be added to the column in
@@ -271,15 +184,6 @@ class WordGridModel(): ViewModel() {
         }
         return xIncr
     }
-    /*
-    operation WordGridModel.getXIncr(direction) {
-        var xIncr:Integer = 1;
-        if (direction == VERT:WordOrientation.id) {
-            xIncr = 0;
-        }
-        return xIncr;
-    }
-    */
 
     /**
      * This method calculates the number that should be added to the row in
@@ -297,19 +201,6 @@ class WordGridModel(): ViewModel() {
         }
         return yIncr
     }
-    /*
-    operation WordGridModel.getYIncr(direction) {
-        var yIncr:Integer = 1;
-        if (direction == HORIZ:WordOrientation.id) {
-            yIncr = 0;
-        }
-        else if (direction == DIAG_UP:WordOrientation.id) {
-            yIncr = -1;
-        }
-        return yIncr;
-    }
-    */
-
 
     /**
      * This method refreshes the grid with the words that have already been placed.
@@ -317,6 +208,10 @@ class WordGridModel(): ViewModel() {
      * "fill letters" be shown, because after the grid is filled with
      * fill letters, the placed words need to be put back on the grid.
      */
+    private fun refreshWordsOnGrid() {
+        //TODO: Ascertain best way to get collection of place words from WordStore
+    }
+
     /*
     operation WordGridModel.refreshWordsOnGrid() {
         for (i in [0..sizeof placedGridEntries - 1]) {
@@ -338,8 +233,7 @@ class WordGridModel(): ViewModel() {
         for (idx in 0 until text.length) {
             wgCells.get(yPos * cols + xPos).cellLetter.set(text.substring(idx, idx + 1))
 
-            // Associate this WordGridEntry with the cell on the grid view
-            //insert wge into gridCells[yPos * columns + xPos].wordEntries;
+            // Associate this WordItem with the cell on the grid view
             wgCells.get(yPos * cols + xPos).wordItems.add(wordItem)
 
             xPos += xIncr;
@@ -347,24 +241,53 @@ class WordGridModel(): ViewModel() {
         }
     }
 
+    /**
+     * Unlaces a word from the grid. This doesn't remove the word from the word
+     * list. It only unplaces it from the grid, marking it as not placed.
+     */
+    fun unplaceWord(wordItem: WordItem) {
+        println("In unplaceWord function for word: ${wordItem.text} (not implemented yet)")
+        //TODO: Implement this function
+    }
+
     /*
-    operation WordGridModel.placeWordGridEntry(wge) {
+    operation WordGridModel.unplaceWord(word) {
+        var wge = getGridEntryByWord(word);
+        if (wge == null) {
+            // Word not found in WordGridModel word list
+            return false;
+        }
+        else {
+            if (not wge.placed) {
+                // Word is already unplaced
+                return false;
+            }
+        }
         var xPos = wge.column;
         var yPos = wge.row;
         var xIncr = getXIncr(wge.direction);
         var yIncr = getYIncr(wge.direction);
-        var word = wge.word;
-        for (i in [0.. word.length()- 1]) {
-            gridCells[yPos * columns + xPos].cellLetter = word.substring(i, i + 1);
 
-            // Associate this WordGridEntry with the cell on the grid view
-            insert wge into gridCells[yPos * columns + xPos].wordEntries;
+        var i = 0;
+        while (i < word.length()) {
+            gridCells[yPos * columns + xPos].cellLetter = SPACE:String;
+
+            // Dissasociate this WordGridEntry with the cell on the grid view
+            var wges = gridCells[yPos * columns + xPos].wordEntries;
+            delete wges[w | w == wge];
 
             xPos += xIncr;
             yPos += yIncr;
+            i++;
         }
+        insert wge into unplacedGridEntries;
+        delete placedGridEntries[w | w == wge];
+        wge.placed = false;
+
+        initializeGrid();
+        refreshWordsOnGrid();
+        return true;
     }
     */
-
 
 }
