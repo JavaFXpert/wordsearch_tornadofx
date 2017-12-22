@@ -22,7 +22,7 @@ class WordListHeader : View() {
             textfield {
                 promptText = "Word to add"
                 action {
-                    store.addWord(text)
+                    store.addWord(text.toUpperCase())
                     clear()
                 }
             }

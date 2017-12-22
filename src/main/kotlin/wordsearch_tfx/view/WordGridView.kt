@@ -1,9 +1,6 @@
 package wordsearch_tfx.view
 
 import javafx.scene.layout.Pane
-import javafx.scene.paint.Color
-import javafx.scene.shape.Rectangle
-import javafx.scene.text.Text
 import tornadofx.*
 import wordsearch_tfx.app.Styles
 import wordsearch_tfx.model.WordGridCell
@@ -13,11 +10,10 @@ class WordGridView : View() {
     private val wgModel: WordGridModel by inject()
     private val CELL_WIDTH_HEIGHT = 30.0
     private val wgCellFrags: Pane = Pane()
-    //private val textLetters: Array<Text> = emptyArray()
 
     init {
-        for (row in 0..wgModel.rows) {
-            for (col in 0..wgModel.cols) {
+        for (row in 0 until wgModel.rows) {
+            for (col in 0 until wgModel.cols) {
                 val wgCell = WordGridCell()
                 wgCellFrags.add(WordGridCellFrag(row, col, CELL_WIDTH_HEIGHT, wgCell))
                 wgModel.addWordGridCell(wgCell)

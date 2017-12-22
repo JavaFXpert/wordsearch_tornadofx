@@ -22,7 +22,7 @@ class WordGridCellFrag(row: Int, col: Int, widthHeight: Double, wgCell: WordGrid
             fill = Color.TRANSPARENT
         }
         pane {
-            text("H").addClass(Styles.gridCellLetter).bind(wgCell.cellLetter)
+            text(" ").addClass(Styles.gridCellLetter).bind(wgCell.cellLetter)
         }.move(0.1.seconds, Point2D(col * widthHeight + 7, row * widthHeight + 22), Interpolator.LINEAR)
     }
 }

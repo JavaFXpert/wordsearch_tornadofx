@@ -10,4 +10,7 @@ class WordGridCell() {
             SimpleStringProperty(Character.forDigit(
                     (Math.floor(Math.random() * 26 + 10)).toInt(), 36).toString().toUpperCase())
 
+    // Word grid entries associated with this cell on the grid
+    val wordItems: ArrayList<WordItem> = ArrayList()
+
 }
