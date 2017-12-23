@@ -267,4 +267,79 @@ class WordGridModel(): ViewModel() {
         clearGridCells()
         refreshWordsOnGrid()
     }
+
+    /**
+     * Set the highlightCell attribute of the model for every letter of
+     * every word that has one if its letters in a given cell.
+     */
+    fun highlightWordsOnCell(cellNum: Int) {
+        var xPos: Int
+        var yPos: Int
+        var xIncr: Int
+        var yIncr: Int
+
+        for (wgCell in wgCells) {
+            //wgCell.appearance = DEFAULT_LOOK:WordGridRect;
+        }
+
+        /*
+        if (cellNum <> NO_CELL:Integer) {
+            for (wge in gridCells[cellNum].wordEntries) {
+                xPos = wge.column;
+                yPos = wge.row;
+                xIncr = getXIncr(wge.direction);
+                yIncr = getYIncr(wge.direction);
+                for (i in [0.. wge.word.length()- 1]) {
+                    if (i == 0) {
+                        gridCells[yPos * columns + xPos].appearance =
+                                SELECTED_FIRST_LETTER_LOOK:WordGridRect;
+                    }
+                    else {
+                        gridCells[yPos * columns + xPos].appearance =
+                                SELECTED_LOOK:WordGridRect;
+                    }
+                    xPos += xIncr;
+                    yPos += yIncr;
+                }
+            }
+        }
+        */
+
+    }
+
+
+    /*
+    operation WordGridModel.highlightWordsOnCell(cellNum) {
+        var xPos;
+        var yPos;
+        var xIncr;
+        var yIncr;
+
+        for (i in [0.. sizeof gridCells - 1]) {
+            gridCells[i].appearance = DEFAULT_LOOK:WordGridRect;
+        }
+        if (cellNum <> NO_CELL:Integer) {
+            for (wge in gridCells[cellNum].wordEntries) {
+                xPos = wge.column;
+                yPos = wge.row;
+                xIncr = getXIncr(wge.direction);
+                yIncr = getYIncr(wge.direction);
+                for (i in [0.. wge.word.length()- 1]) {
+                    if (i == 0) {
+                        gridCells[yPos * columns + xPos].appearance =
+                                SELECTED_FIRST_LETTER_LOOK:WordGridRect;
+                    }
+                    else {
+                        gridCells[yPos * columns + xPos].appearance =
+                                SELECTED_LOOK:WordGridRect;
+                    }
+                    xPos += xIncr;
+                    yPos += yIncr;
+                }
+            }
+        }
+    }
+    */
+
+
 }
