@@ -4,6 +4,8 @@ import javafx.scene.text.FontWeight
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView
 import javafx.geometry.Pos
+import javafx.scene.paint.Color
+import javafx.scene.paint.Paint
 import tornadofx.*
 
 class Styles : Stylesheet() {

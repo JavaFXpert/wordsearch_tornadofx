@@ -16,8 +16,8 @@ class WordGridView : View() {
         val wgCellNodes = Pane()
         top = text("My Word Search Puzzle").setId(Styles.title)
         center = pane {
-            for (row in 0 until wgModel.rows) {
-                for (col in 0 until wgModel.cols) {
+            for (row in 0 until wgModel.numRows) {
+                for (col in 0 until wgModel.numCols) {
                     val wgCell = WordGridCell()
                     wgModel.addWordGridCell(wgCell)
 
@@ -26,8 +26,12 @@ class WordGridView : View() {
                     wgCellNode.move(0.1.seconds,
                             Point2D(col * CELL_WIDTH_HEIGHT + 7,
                                     row * CELL_WIDTH_HEIGHT + 22), Interpolator.LINEAR)
-                    wgCellNode.setOnMouseEntered{println("Mouse Entered")}
-                    wgCellNode.setOnMouseExited{println("Mouse Exited")}
+                    wgCellNode.setOnMouseEntered {
+                        wgModel.highlightWordsOnCell(row * wgModel.numCols + col )
+                    }
+                    wgCellNode.setOnMouseExited {
+                        wgModel.highlightWordsOnCell(wgModel.NO_CELL)
+                    }
                     wgCellNodes.add(wgCellNode)
                 }
             }

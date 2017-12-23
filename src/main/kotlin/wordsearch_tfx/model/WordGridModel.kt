@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableBooleanValue
 import wordsearch_tfx.model.WordOrientation.*
 import tornadofx.*
 import wordsearch_tfx.controller.WordStore
+import wordsearch_tfx.view.CellAppearance.*
 
 class WordGridModel(): ViewModel() {
     private val wordStore = find(WordStore::class)
@@ -15,8 +16,8 @@ class WordGridModel(): ViewModel() {
        */
     val NO_CELL:Int = -1;
 
-    val rows: Int = 12
-    val cols: Int = 12
+    val numRows: Int = 12
+    val numCols: Int = 12
     val numWordOrientations = 4
 
     val fillLettersOnGrid = SimpleBooleanProperty(false)
@@ -29,24 +30,20 @@ class WordGridModel(): ViewModel() {
     */
 
     init {
-        //TODO: Ascertain more Kotlin/TornadoFX-ish way to accomplish this when UI controls are bidirectionally
-        //      bound to fillLettersOnGrid.
-        fillLettersOnGrid.addListener{
-            e -> run {
-                if (e is BooleanProperty && e.getValue()) {
-                    clearGridCells()
-                    copyFillLettersToGrid()
-                    refreshWordsOnGrid()
-                }
-                else {
-                    clearGridCells()
-                    refreshWordsOnGrid()
-                }
+        fillLettersOnGrid.onChange {
+            if (it) {
+                clearGridCells()
+                copyFillLettersToGrid()
+                refreshWordsOnGrid()
+            }
+            else {
+                clearGridCells()
+                refreshWordsOnGrid()
             }
         }
     }
 
-    val wgCells: ArrayList<WordGridCell> = ArrayList()
+    private val wgCells: ArrayList<WordGridCell> = ArrayList()
 
     private fun getWordOrientationById(id: Int) =
         when (id) {
@@ -93,18 +90,18 @@ class WordGridModel(): ViewModel() {
     //TODO: Perhaps throw an exception if unsuccessful instead of returning false
     fun placeWord(word: WordItem): Boolean {
         var success: Boolean
-        val startingRow = (Math.random() * rows).toInt()
-        val startingCol = (Math.random() * cols).toInt()
-        for (row in 0 until rows) {
-            for (col in 0 until cols) {
+        val startingRow = (Math.random() * numRows).toInt()
+        val startingCol = (Math.random() * numCols).toInt()
+        for (row in 0 until numRows) {
+            for (col in 0 until numCols) {
                 val startingOrientId = (Math.random() * numWordOrientations).toInt()
                 for (d in 0 until numWordOrientations) {
                     val orientId = (startingOrientId + d) % numWordOrientations
 
                     val wordOrientation = getWordOrientationById(orientId)
                     success = placeWordSpecific(word,
-                            (startingRow + row) % rows,
-                            (startingCol + col) % cols,
+                            (startingRow + row) % numRows,
+                            (startingCol + col) % numCols,
                             wordOrientation);
                     if (success) {
                         return true;
@@ -162,14 +159,14 @@ class WordGridModel(): ViewModel() {
 
         // Make sure that the word can be placed
         for (i in 0 until word.length) {
-            if (xPos > cols - 1 || yPos > rows - 1 || xPos < 0 || yPos <0) {
+            if (xPos > numCols - 1 || yPos > numRows - 1 || xPos < 0 || yPos <0) {
                 // The word can't be placed because one of the letters is off the grid
                 canPlaceWord = false;
                 break;
             }
             // See if the letter being placed is either a space or the same letter
-            else if ((wgCells.get(yPos * cols + xPos).cellLetter.get() != " ") &&
-                    (wgCells.get(yPos * cols + xPos).cellLetter.get() != word.substring(i, i+1))) {
+            else if ((wgCells.get(yPos * numCols + xPos).cellLetter.get() != " ") &&
+                    (wgCells.get(yPos * numCols + xPos).cellLetter.get() != word.substring(i, i+1))) {
                 // The word can't be placed because of a conflict with another
                 // letter on the grid
                 canPlaceWord = false;
@@ -237,10 +234,10 @@ class WordGridModel(): ViewModel() {
         var yIncr = getYIncr(wordItem.wordOrientation)
         val text = wordItem.text
         for (idx in 0 until text.length) {
-            wgCells.get(yPos * cols + xPos).cellLetter.set(text.substring(idx, idx + 1))
+            wgCells.get(yPos * numCols + xPos).cellLetter.set(text.substring(idx, idx + 1))
 
             // Associate this WordItem with the cell on the grid view
-            wgCells.get(yPos * cols + xPos).wordItems.add(wordItem)
+            wgCells.get(yPos * numCols + xPos).wordItems.add(wordItem)
 
             xPos += xIncr;
             yPos += yIncr;
@@ -259,11 +256,11 @@ class WordGridModel(): ViewModel() {
 
         val text = wordItem.text
         for (idx in 0 until text.length) {
-            wgCells.get(yPos * cols + xPos).cellLetter.set(" ")
+            wgCells.get(yPos * numCols + xPos).cellLetter.set(" ")
 
             // Dissasociate this WordItem with the cell on the grid view
             //TODO: Verify that they are being disassociated (removed)
-            wgCells.get(yPos * cols + xPos).wordItems.remove(wordItem)
+            wgCells.get(yPos * numCols + xPos).wordItems.remove(wordItem)
 
             xPos += xIncr
             yPos += yIncr
@@ -280,24 +277,23 @@ class WordGridModel(): ViewModel() {
     fun highlightWordsOnCell(cellNum: Int) {
 
         for (wgCell in wgCells) {
-            //wgCell.appearance = DEFAULT_LOOK:WordGridRect;
+            wgCell.appearance.set(DEFAULT_LOOK)
         }
-        val wgCell = wgCells.get(cellNum)
 
-        if (cellNum != NO_CELL) {
+        if (cellNum != NO_CELL && wgCells.size > cellNum) {
+            val wgCell = wgCells.get(cellNum)
+
             for (wordItem in wgCell.wordItems) {
                 var xPos = wordItem.gridCol;
                 var yPos = wordItem.gridRow;
                 val xIncr = getXIncr(wordItem.wordOrientation);
                 val yIncr = getYIncr(wordItem.wordOrientation);
-                for (i in 0 until wordItem.text.length) {
-                    if (i == 0) {
-                        //wgCell.appearance =
-                        //        SELECTED_FIRST_LETTER_LOOK:WordGridRect;
+                for (idx in 0 until wordItem.text.length) {
+                    if (idx == 0) {
+                        wgCells.get(yPos * numCols + xPos ).appearance.set(SELECTED_FIRST_LETTER_LOOK)
                     }
                     else {
-                        //wgCell.appearance =
-                        //        SELECTED_LOOK:WordGridRect;
+                        wgCells.get(yPos * numCols + xPos ).appearance.set(SELECTED_LOOK)
                     }
                     xPos += xIncr;
                     yPos += yIncr;
@@ -305,40 +301,4 @@ class WordGridModel(): ViewModel() {
             }
         }
     }
-
-
-    /*
-    operation WordGridModel.highlightWordsOnCell(cellNum) {
-        var xPos;
-        var yPos;
-        var xIncr;
-        var yIncr;
-
-        for (i in [0.. sizeof gridCells - 1]) {
-            gridCells[i].appearance = DEFAULT_LOOK:WordGridRect;
-        }
-        if (cellNum <> NO_CELL:Integer) {
-            for (wge in gridCells[cellNum].wordEntries) {
-                xPos = wge.column;
-                yPos = wge.row;
-                xIncr = getXIncr(wge.direction);
-                yIncr = getYIncr(wge.direction);
-                for (i in [0.. wge.word.length()- 1]) {
-                    if (i == 0) {
-                        gridCells[yPos * columns + xPos].appearance =
-                                SELECTED_FIRST_LETTER_LOOK:WordGridRect;
-                    }
-                    else {
-                        gridCells[yPos * columns + xPos].appearance =
-                                SELECTED_LOOK:WordGridRect;
-                    }
-                    xPos += xIncr;
-                    yPos += yIncr;
-                }
-            }
-        }
-    }
-    */
-
-
 }
