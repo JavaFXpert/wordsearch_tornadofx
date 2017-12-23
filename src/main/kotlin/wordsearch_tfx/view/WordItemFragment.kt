@@ -45,11 +45,11 @@ class WordItemFragment : ListCellFragment<WordItem>() {
         button(graphic = Styles.closeIcon()) {
             removeWhen { parent.hoverProperty().not().or(editingProperty) }
             action {
-                //TODO: Diagnose occasional NPE
-                store.removeWord(item)
+                //TODO: Make word immediately disappear from grid
                 if (item.placed) {
                     // Remove word from grid
                     wgModel.unplaceWord(item)
+                    store.removeWord(item)
                 }
             }
         }

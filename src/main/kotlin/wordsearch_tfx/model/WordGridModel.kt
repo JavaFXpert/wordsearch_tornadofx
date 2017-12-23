@@ -10,6 +10,11 @@ import wordsearch_tfx.controller.WordStore
 class WordGridModel(): ViewModel() {
     private val wordStore = find(WordStore::class)
 
+    /* Constant that indicates that an operation
+       pertains to no cell.  Used as an argument to highlightWordsOnCell()
+       */
+    val NO_CELL:Int = -1;
+
     val rows: Int = 12
     val cols: Int = 12
     val numWordOrientations = 4
@@ -273,38 +278,32 @@ class WordGridModel(): ViewModel() {
      * every word that has one if its letters in a given cell.
      */
     fun highlightWordsOnCell(cellNum: Int) {
-        var xPos: Int
-        var yPos: Int
-        var xIncr: Int
-        var yIncr: Int
 
         for (wgCell in wgCells) {
             //wgCell.appearance = DEFAULT_LOOK:WordGridRect;
         }
+        val wgCell = wgCells.get(cellNum)
 
-        /*
-        if (cellNum <> NO_CELL:Integer) {
-            for (wge in gridCells[cellNum].wordEntries) {
-                xPos = wge.column;
-                yPos = wge.row;
-                xIncr = getXIncr(wge.direction);
-                yIncr = getYIncr(wge.direction);
-                for (i in [0.. wge.word.length()- 1]) {
+        if (cellNum != NO_CELL) {
+            for (wordItem in wgCell.wordItems) {
+                var xPos = wordItem.gridCol;
+                var yPos = wordItem.gridRow;
+                val xIncr = getXIncr(wordItem.wordOrientation);
+                val yIncr = getYIncr(wordItem.wordOrientation);
+                for (i in 0 until wordItem.text.length) {
                     if (i == 0) {
-                        gridCells[yPos * columns + xPos].appearance =
-                                SELECTED_FIRST_LETTER_LOOK:WordGridRect;
+                        //wgCell.appearance =
+                        //        SELECTED_FIRST_LETTER_LOOK:WordGridRect;
                     }
                     else {
-                        gridCells[yPos * columns + xPos].appearance =
-                                SELECTED_LOOK:WordGridRect;
+                        //wgCell.appearance =
+                        //        SELECTED_LOOK:WordGridRect;
                     }
                     xPos += xIncr;
                     yPos += yIncr;
                 }
             }
         }
-        */
-
     }
 
 
