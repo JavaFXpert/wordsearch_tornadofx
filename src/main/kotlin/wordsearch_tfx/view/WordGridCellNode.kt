@@ -8,7 +8,6 @@ import wordsearch_tfx.app.Styles
 import wordsearch_tfx.model.WordGridCell
 
 class WordGridCellNode(widthHeight: Double, wgCell: WordGridCell): Pane() {
-    //val cellAppearance = SimpleObjectProperty<CellAppearance>()
     var rect = Rectangle()
 
     init {

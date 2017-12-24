@@ -11,23 +11,17 @@ import wordsearch_tfx.view.CellAppearance.*
 class WordGridModel(): ViewModel() {
     private val wordStore = find(WordStore::class)
 
-    /* Constant that indicates that an operation
-       pertains to no cell.  Used as an argument to highlightWordsOnCell()
-       */
+    /*
+     Constant that indicates that an operation
+     pertains to no cell.  Used as an argument to highlightWordsOnCell()
+    */
     val NO_CELL:Int = -1;
 
-    val numRows: Int = 12
-    val numCols: Int = 12
+    val numRows: Int = 10
+    val numCols: Int = 10
     val numWordOrientations = 4
 
     val fillLettersOnGrid = SimpleBooleanProperty(false)
-
-    /*
-    //TODO: See if there is a variation of this that will work when UI controls are bidirectionally bound
-    val fillLettersOnGrid: SimpleBooleanProperty = SimpleBooleanProperty(false).onChange {
-        copyFillLettersToGrid()
-    }
-    */
 
     init {
         fillLettersOnGrid.onChange {
@@ -234,10 +228,16 @@ class WordGridModel(): ViewModel() {
         var yIncr = getYIncr(wordItem.wordOrientation)
         val text = wordItem.text
         for (idx in 0 until text.length) {
-            wgCells.get(yPos * numCols + xPos).cellLetter.set(text.substring(idx, idx + 1))
+            val wgCell = wgCells.get(yPos * numCols + xPos)
+            wgCell.cellLetter.set(text.substring(idx, idx + 1))
 
-            // Associate this WordItem with the cell on the grid view
-            wgCells.get(yPos * numCols + xPos).wordItems.add(wordItem)
+            /*
+             Associate this WordItem with the cell on the grid view,
+             protecting against adding the same item twice
+              */
+            if (wgCell.wordItems.indexOf(wordItem) == -1) {
+                wgCell.wordItems.add(wordItem)
+            }
 
             xPos += xIncr;
             yPos += yIncr;
@@ -256,11 +256,11 @@ class WordGridModel(): ViewModel() {
 
         val text = wordItem.text
         for (idx in 0 until text.length) {
-            wgCells.get(yPos * numCols + xPos).cellLetter.set(" ")
+            val wgCell = wgCells.get(yPos * numCols + xPos)
+            wgCell.cellLetter.set(" ")
 
-            // Dissasociate this WordItem with the cell on the grid view
-            //TODO: Verify that they are being disassociated (removed)
-            wgCells.get(yPos * numCols + xPos).wordItems.remove(wordItem)
+            // Disassociate this WordItem with the cell on the grid view
+            wgCell.wordItems.remove(wordItem)
 
             xPos += xIncr
             yPos += yIncr
