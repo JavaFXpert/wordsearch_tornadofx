@@ -18,8 +18,8 @@ class WordGridModel(): ViewModel() {
     */
     val NO_CELL:Int = -1;
 
-    val numRows: Int = 10
-    val numCols: Int = 10
+    val numRows: Int = 12
+    val numCols: Int = 12
     val numWordOrientations = 4
 
     val fillLettersOnGrid = SimpleBooleanProperty(false)
@@ -58,9 +58,10 @@ class WordGridModel(): ViewModel() {
      * Fills the grid (two-dimensional array that stores the word search puzzle
      * letters) with spaces
      */
-    private fun clearGridCells() {
+    fun clearGridCells() {
         for (wgCell in wgCells) {
-            wgCell.cellLetter.set(" ");
+            wgCell.cellLetter.set(" ")
+            wgCell.appearance.set(DEFAULT_LOOK)
         }
     }
 
@@ -226,7 +227,7 @@ class WordGridModel(): ViewModel() {
      * "fill letters" be shown, because after the grid is filled with
      * fill letters, the placed words need to be put back on the grid.
      */
-    private fun refreshWordsOnGrid() {
+     fun refreshWordsOnGrid() {
         val itemsPlaced = wordStore.words.items.filtered{it.placed}
 
         for (wordItem in itemsPlaced) {
@@ -265,7 +266,7 @@ class WordGridModel(): ViewModel() {
      * Unlaces a word from the grid. This doesn't remove the word from the word
      * list. It only unplaces it from the grid, marking it as not placed.
      */
-    fun unplaceWord(wordItem: WordItem) {
+    fun unplaceWord(wordItem: WordItem): Boolean {
         var xPos = wordItem.gridCol;
         var yPos = wordItem.gridRow;
         var xIncr = getXIncr(wordItem.wordOrientation);
@@ -285,6 +286,7 @@ class WordGridModel(): ViewModel() {
 
         clearGridCells()
         refreshWordsOnGrid()
+        return true
     }
 
     /**

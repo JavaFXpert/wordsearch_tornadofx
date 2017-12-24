@@ -38,6 +38,7 @@ class WordItem(text: String) {
                         //TODO: Make the listview reflect the checked state of the
                         //      unplaced word (it currently remains checked)
                     }
+                    else {}
                 }
                 else {
                     // Remove word from grid

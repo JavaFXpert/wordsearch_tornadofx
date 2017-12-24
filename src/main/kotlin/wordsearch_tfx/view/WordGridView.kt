@@ -3,6 +3,7 @@ package wordsearch_tfx.view
 import javafx.animation.Interpolator
 import javafx.geometry.Point2D
 import javafx.scene.Cursor.*
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.Pane
 import tornadofx.*
 import wordsearch_tfx.app.Styles
@@ -26,7 +27,7 @@ class WordGridView : View() {
     private var dragToColumn: Int = 0
 
     // The word grid entry of the word being dragged
-    private var dragOrigWge: WordItem = WordItem("")
+    private var dragOrigWge = WordItem("")
 
     // This holds the state of whether a word is being dragged
     private var dragging: Boolean = false
@@ -81,64 +82,58 @@ class WordGridView : View() {
                         // currently being dragged.
                         if (!wgModel.fillLettersOnGrid.get()) {
                             if (dragging) {
-                                //TODO: Is checking for null necessary?
-                                //dragToRow = ((evt.localY) / CELL_WIDTH:Integer).intValue();
-                                //dragToColumn = ((evt.localX) / CELL_WIDTH:Integer).intValue();
+                                dragToRow = ((it.y + (dragOrigRow + 1) * CELL_WIDTH_HEIGHT) / CELL_WIDTH_HEIGHT).toInt()
+                                dragToColumn = ((it.x + (dragOrigColumn + 0.5) * CELL_WIDTH_HEIGHT) / CELL_WIDTH_HEIGHT).toInt()
 
                                 // See if the word can be placed, giving the cells under
                                 // consideration the "dragged" look.
                                 if (!wgModel.canPlaceWordSpecific(
-                                        dragOrigWge.text,
-                                        dragToRow,
-                                        dragToColumn,
-                                        dragOrigWge.wordOrientation,
-                                        DRAGGING_LOOK)) {
-                                        // The word can't be placed, so call the same method, passing
-                                        // an argument that causes the cells to have a "can't drop look"
-                                        wgModel.canPlaceWordSpecific(dragOrigWge.text,
-                                                dragToRow,
-                                                dragToColumn,
-                                                dragOrigWge.wordOrientation,
-                                                CANT_DROP_LOOK)
+                                    dragOrigWge.text,
+                                    dragToRow,
+                                    dragToColumn,
+                                    dragOrigWge.wordOrientation,
+                                    DRAGGING_LOOK)) {
+                                    // The word can't be placed, so call the same method, passing
+                                    // an argument that causes the cells to have a "can't drop look"
+                                    wgModel.canPlaceWordSpecific(dragOrigWge.text,
+                                            dragToRow,
+                                            dragToColumn,
+                                            dragOrigWge.wordOrientation,
+                                            CANT_DROP_LOOK)
                                 }
                             }
                         }
                     }
+                    wgCellNode.setOnMouseReleased {
+                        // If the fill letters aren't on the grid, use the CanvasMouseEvent
+                        // to know where the user is dragging the mouse.  Give feedback to
+                        // the user as to whether the word can be placed where it is
+                        // currently being dragged.
+                        if (!wgModel.fillLettersOnGrid.get()) {
+                            if (dragging) {
+                                dragging = false
 
+                                if (wgModel.canPlaceWordSpecific(
+                                    dragOrigWge.text,
+                                    dragToRow,
+                                    dragToColumn,
+                                    dragOrigWge.wordOrientation,
+                                    DEFAULT_LOOK)) {
 
+                                    if (wgModel.unplaceWord(dragOrigWge)) {
+                                        wgModel.placeWordSpecific(dragOrigWge,
+                                                dragToRow,
+                                                dragToColumn,
+                                                dragOrigWge.wordOrientation)
+                                    }
+                                }
+                            }
 
-/*
-        onMouseDragged: operation(evt:CanvasMouseEvent) {
-          // If the fill letters aren't on the grid, use the CanvasMouseEvent
-          // to know where the user is dragging the mouse.  Give feedback to
-          // the user as to whether the word can be placed where it is
-          // currently being dragged.
-          if (wgModel.fillLettersOnGrid) {
-            return;
-          }
-          if (dragging) {
-            if (dragOrigWge <> null) {
-              dragToRow = ((evt.localY) / CELL_WIDTH:Integer).intValue();
-              dragToColumn = ((evt.localX) / CELL_WIDTH:Integer).intValue();
-              // See if the word can be placed, giving the cells under
-              // consideration the "dragged" look.
-              if (not wgModel.canPlaceWordSpecific(dragOrigWge.word,
-                                                   dragToRow,
-                                                   dragToColumn,
-                                                   dragOrigWge.direction,
-                                                   DRAGGING_LOOK:WordGridRect)) {
-                // The word can't be placed, so call the same method, passing
-                // an argument that causes the cells to have a "can't drop look"
-                wgModel.canPlaceWordSpecific(dragOrigWge.word,
-                                                   dragToRow,
-                                                   dragToColumn,
-                                                   dragOrigWge.direction,
-                                                   CANT_DROP_LOOK:WordGridRect);
-              }
-            }
-          }
-        }
- */
+                            //TODO: Consider creating function in wgModel that does both of these
+                            wgModel.clearGridCells()
+                            wgModel.refreshWordsOnGrid()
+                        }
+                    }
                     wgCellNodes.add(wgCellNode)
                 }
             }

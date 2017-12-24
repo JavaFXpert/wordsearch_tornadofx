@@ -14,8 +14,9 @@ class WordGridCellNode(widthHeight: Double, wgCell: WordGridCell): Pane() {
     init {
         replaceChildren {
             rect = rectangle(-7.0, -22.0, widthHeight, widthHeight) {
+                strokeWidth = 1.0
                 stroke = Color.BLACK
-                fill = Color.TRANSPARENT
+                fill = Color.WHITE
             }
             text(" ").addClass(Styles.gridCellLetter).bind(wgCell.cellLetter)
         }
@@ -37,7 +38,7 @@ class WordGridCellNode(widthHeight: Double, wgCell: WordGridCell): Pane() {
                 rect.strokeWidth = 1.0
                 rect.stroke = Color.CYAN
                 rect.fill = Color.CYAN
-                cursor = Cursor.HAND
+                cursor = Cursor.MOVE
             }
             else if (it is CellAppearance && it == CellAppearance.CANT_DROP_LOOK) {
                 rect.strokeWidth = 1.0
@@ -48,13 +49,13 @@ class WordGridCellNode(widthHeight: Double, wgCell: WordGridCell): Pane() {
             else if (it is CellAppearance && it == CellAppearance.DEFAULT_FIRST_LETTER_LOOK) {
                 rect.strokeWidth = 1.0
                 rect.stroke = Color.BLACK
-                rect.fill = Color.TRANSPARENT
+                rect.fill = Color.WHITE
                 cursor = Cursor.HAND
             }
             else if (it is CellAppearance && it == CellAppearance.DEFAULT_LOOK) {
                 rect.strokeWidth = 1.0
                 rect.stroke = Color.BLACK
-                rect.fill = Color.TRANSPARENT
+                rect.fill = Color.WHITE
                 cursor = Cursor.DEFAULT
             }
         }
