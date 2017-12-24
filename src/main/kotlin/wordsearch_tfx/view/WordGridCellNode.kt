@@ -1,5 +1,6 @@
 package wordsearch_tfx.view
 
+import javafx.scene.Cursor
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
@@ -20,14 +21,41 @@ class WordGridCellNode(widthHeight: Double, wgCell: WordGridCell): Pane() {
         }
 
         wgCell.appearance.onChange {
-            if (it is CellAppearance && it == CellAppearance.DEFAULT_LOOK) {
-                rect.fill = Color.TRANSPARENT
-            }
-            else if (it is CellAppearance && it == CellAppearance.SELECTED_LOOK) {
+            if (it is CellAppearance && it == CellAppearance.SELECTED_LOOK) {
+                rect.strokeWidth = 2.0
+                rect.stroke = Color.BLACK
                 rect.fill = Color.YELLOW
+                cursor = Cursor.DEFAULT
             }
             else if (it is CellAppearance && it == CellAppearance.SELECTED_FIRST_LETTER_LOOK) {
+                rect.strokeWidth = 2.0
+                rect.stroke = Color.BLACK
                 rect.fill = Color.YELLOW
+                cursor = Cursor.HAND
+            }
+            else if (it is CellAppearance && it == CellAppearance.DRAGGING_LOOK) {
+                rect.strokeWidth = 1.0
+                rect.stroke = Color.CYAN
+                rect.fill = Color.CYAN
+                cursor = Cursor.HAND
+            }
+            else if (it is CellAppearance && it == CellAppearance.CANT_DROP_LOOK) {
+                rect.strokeWidth = 1.0
+                rect.stroke = Color.RED
+                rect.fill = Color.RED
+                cursor = Cursor.MOVE
+            }
+            else if (it is CellAppearance && it == CellAppearance.DEFAULT_FIRST_LETTER_LOOK) {
+                rect.strokeWidth = 1.0
+                rect.stroke = Color.BLACK
+                rect.fill = Color.TRANSPARENT
+                cursor = Cursor.HAND
+            }
+            else if (it is CellAppearance && it == CellAppearance.DEFAULT_LOOK) {
+                rect.strokeWidth = 1.0
+                rect.stroke = Color.BLACK
+                rect.fill = Color.TRANSPARENT
+                cursor = Cursor.DEFAULT
             }
         }
     }

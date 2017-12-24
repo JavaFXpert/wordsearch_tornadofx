@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableBooleanValue
 import wordsearch_tfx.model.WordOrientation.*
 import tornadofx.*
 import wordsearch_tfx.controller.WordStore
+import wordsearch_tfx.view.CellAppearance
 import wordsearch_tfx.view.CellAppearance.*
 
 class WordGridModel(): ViewModel() {
@@ -37,7 +38,7 @@ class WordGridModel(): ViewModel() {
         }
     }
 
-    private val wgCells: ArrayList<WordGridCell> = ArrayList()
+    val wgCells: ArrayList<WordGridCell> = ArrayList()
 
     private fun getWordOrientationById(id: Int) =
         when (id) {
@@ -117,7 +118,7 @@ class WordGridModel(): ViewModel() {
 
         // Check to make sure that the word may be placed there
         //TODO: Pass an additional (appearance) argument
-        if (!canPlaceWordSpecific(wordItem.text, row, col, orientation)) {
+        if (!canPlaceWordSpecific(wordItem.text, row, col, orientation, DEFAULT_LOOK)) {
             return false;
         }
         else {
@@ -136,8 +137,9 @@ class WordGridModel(): ViewModel() {
      * should have.
      */
     //TODO: Implement the appearance state including a cellAppearance parameter
-    private fun canPlaceWordSpecific(word: String, row: Int, col: Int,
-                                     orientation: WordOrientation): Boolean {
+    fun canPlaceWordSpecific(word: String, row: Int, col: Int,
+                                     orientation: WordOrientation,
+                                     cellAppearance: CellAppearance): Boolean {
         var xPos = col
         var yPos = row
 
@@ -155,8 +157,8 @@ class WordGridModel(): ViewModel() {
         for (i in 0 until word.length) {
             if (xPos > numCols - 1 || yPos > numRows - 1 || xPos < 0 || yPos <0) {
                 // The word can't be placed because one of the letters is off the grid
-                canPlaceWord = false;
-                break;
+                canPlaceWord = false
+                break
             }
             // See if the letter being placed is either a space or the same letter
             else if ((wgCells.get(yPos * numCols + xPos).cellLetter.get() != " ") &&
@@ -165,6 +167,21 @@ class WordGridModel(): ViewModel() {
                 // letter on the grid
                 canPlaceWord = false;
             }
+
+            if (cellAppearance == DRAGGING_LOOK) {
+                wgCells.get(yPos * numCols + xPos).appearance.set(DRAGGING_LOOK)
+            }
+            else if (cellAppearance == CANT_DROP_LOOK) {
+                wgCells.get(yPos * numCols + xPos).appearance.set(CANT_DROP_LOOK)
+            }
+            else if (i == 0) {
+                // This is the first letter of the word
+                wgCells.get(yPos * numCols + xPos).appearance.set(DEFAULT_FIRST_LETTER_LOOK)
+            }
+            else {
+                wgCells.get(yPos * numCols + xPos).appearance.set(DEFAULT_LOOK)
+            }
+
             xPos += xIncr;
             yPos += yIncr;
         }
