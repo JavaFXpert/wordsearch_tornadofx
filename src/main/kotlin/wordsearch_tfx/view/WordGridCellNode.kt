@@ -25,26 +25,26 @@ class WordGridCellNode(widthHeight: Double, wgCell: WordGridCell): Pane() {
             if (it is CellAppearance && it == CellAppearance.SELECTED_LOOK) {
                 rect.strokeWidth = 2.0
                 rect.stroke = Color.BLACK
-                rect.fill = Color.YELLOW
+                rect.fill = Color.LIGHTYELLOW
                 cursor = Cursor.DEFAULT
             }
             else if (it is CellAppearance && it == CellAppearance.SELECTED_FIRST_LETTER_LOOK) {
                 rect.strokeWidth = 2.0
                 rect.stroke = Color.BLACK
-                rect.fill = Color.YELLOW
+                rect.fill = Color.LIGHTYELLOW
                 cursor = Cursor.HAND
             }
             else if (it is CellAppearance && it == CellAppearance.DRAGGING_LOOK) {
                 rect.strokeWidth = 1.0
-                rect.stroke = Color.CYAN
-                rect.fill = Color.CYAN
+                rect.stroke = Color.BLACK
+                rect.fill = Color.WHITE
                 cursor = Cursor.MOVE
             }
             else if (it is CellAppearance && it == CellAppearance.CANT_DROP_LOOK) {
                 rect.strokeWidth = 1.0
-                rect.stroke = Color.RED
-                rect.fill = Color.RED
-                cursor = Cursor.MOVE
+                rect.stroke = Color.BLACK
+                rect.fill = Color.WHITE
+                cursor = Cursor.WAIT
             }
             else if (it is CellAppearance && it == CellAppearance.DEFAULT_FIRST_LETTER_LOOK) {
                 rect.strokeWidth = 1.0

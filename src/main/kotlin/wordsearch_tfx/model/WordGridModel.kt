@@ -55,28 +55,6 @@ class WordGridModel(): ViewModel() {
     }
 
     /**
-     * Fills the grid (two-dimensional array that stores the word search puzzle
-     * letters) with spaces
-     */
-    fun clearGridCells() {
-        for (wgCell in wgCells) {
-            wgCell.cellLetter.set(" ")
-            wgCell.appearance.set(DEFAULT_LOOK)
-        }
-    }
-
-    /**
-     * Copies the randomly generated fill letters from the array in which they are
-     * stored into the array that stores the word search puzzle letters.
-     */
-    private fun copyFillLettersToGrid() {
-        for (wgCell in wgCells) {
-            //wgCell.cellLetter = wgCell.fillLetter
-            wgCell.cellLetter.set(wgCell.fillLetter.get())
-        }
-    }
-
-    /**
      * Places a word on the grid with no specified location or orientation.
      * Beginning with a random row, column, and orientation, it tries every
      * available position for a word before giving up and returning false.
@@ -222,20 +200,6 @@ class WordGridModel(): ViewModel() {
     }
 
     /**
-     * This method refreshes the grid with the words that have already been placed.
-     * This would be called, for example, when the user requests that
-     * "fill letters" be shown, because after the grid is filled with
-     * fill letters, the placed words need to be put back on the grid.
-     */
-     fun refreshWordsOnGrid() {
-        val itemsPlaced = wordStore.words.items.filtered{it.placed}
-
-        for (wordItem in itemsPlaced) {
-            placeWordGridEntry(wordItem)
-        }
-    }
-
-    /**
      * This method takes a WordGridEntry and places each letter in the word onto
      * the grid, according to the position and direction stored in the WordGridEntry
      */
@@ -295,9 +259,7 @@ class WordGridModel(): ViewModel() {
      */
     fun highlightWordsOnCell(cellNum: Int) {
 
-        for (wgCell in wgCells) {
-            wgCell.appearance.set(DEFAULT_LOOK)
-        }
+        gridCellsDefaultAppearance()
 
         if (cellNum != NO_CELL && wgCells.size > cellNum) {
             val wgCell = wgCells.get(cellNum)
@@ -320,4 +282,51 @@ class WordGridModel(): ViewModel() {
             }
         }
     }
+
+    /**
+     * Copies the randomly generated fill letters from the array in which they are
+     * stored into the array that stores the word search puzzle letters.
+     */
+    private fun copyFillLettersToGrid() {
+        for (wgCell in wgCells) {
+            //wgCell.cellLetter = wgCell.fillLetter
+            wgCell.cellLetter.set(wgCell.fillLetter.get())
+        }
+    }
+
+    /**
+     * This method refreshes the grid with the words that have already been placed.
+     * This would be called, for example, when the user requests that
+     * "fill letters" be shown, because after the grid is filled with
+     * fill letters, the placed words need to be put back on the grid.
+     */
+    fun refreshWordsOnGrid() {
+        val itemsPlaced = wordStore.words.items.filtered{it.placed}
+
+        for (wordItem in itemsPlaced) {
+            placeWordGridEntry(wordItem)
+        }
+    }
+
+    /**
+     * Fills the grid (two-dimensional array that stores the word search puzzle
+     * letters) with spaces
+     */
+    fun clearGridCells() {
+        for (wgCell in wgCells) {
+            wgCell.cellLetter.set(" ")
+            wgCell.appearance.set(DEFAULT_LOOK)
+        }
+    }
+
+    /**
+     * Makes all cell have default appearance
+     */
+    private fun gridCellsDefaultAppearance() {
+        for (wgCell in wgCells) {
+            wgCell.appearance.set(DEFAULT_LOOK)
+        }
+    }
+
+
 }
