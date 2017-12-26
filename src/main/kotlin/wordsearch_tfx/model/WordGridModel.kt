@@ -247,9 +247,6 @@ class WordGridModel(): ViewModel() {
             xPos += xIncr
             yPos += yIncr
         }
-
-        clearGridCells()
-        refreshWordsOnGrid()
         return true
     }
 
