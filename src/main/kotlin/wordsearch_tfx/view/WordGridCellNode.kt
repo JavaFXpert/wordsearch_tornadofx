@@ -23,34 +23,34 @@ class WordGridCellNode(widthHeight: Double, wgCell: WordGridCell): Pane() {
 
         wgCell.appearance.onChange {
             if (it is CellAppearance && it == CellAppearance.SELECTED_LOOK) {
-                rect.strokeWidth = 3.0
+                rect.strokeWidth = 2.0
                 rect.stroke = Color.BLACK
                 rect.fill = Color.LIGHTYELLOW
                 cursor = Cursor.DEFAULT
             }
             else if (it is CellAppearance && it == CellAppearance.SELECTED_FIRST_LETTER_LOOK) {
-                rect.strokeWidth = 3.0
+                rect.strokeWidth = 2.0
                 rect.stroke = Color.BLACK
                 rect.fill = Color.LIGHTYELLOW
-                cursor = Cursor.HAND
+                cursor = Cursor.DEFAULT
             }
             else if (it is CellAppearance && it == CellAppearance.DRAGGING_LOOK) {
-                rect.strokeWidth = 3.0
+                rect.strokeWidth = 2.0
                 rect.stroke = Color.BLACK
-                rect.fill = Color.WHITE
-                cursor = Cursor.CLOSED_HAND
+                rect.fill = Color.LIGHTYELLOW
+                cursor = Cursor.DEFAULT
             }
             else if (it is CellAppearance && it == CellAppearance.CANT_DROP_LOOK) {
-                rect.strokeWidth = 3.0
+                rect.strokeWidth = 2.0
                 rect.stroke = Color.BLACK
-                rect.fill = Color.WHITE
-                cursor = Cursor.MOVE
+                rect.fill = Color.RED
+                cursor = Cursor.DEFAULT
             }
             else if (it is CellAppearance && it == CellAppearance.DEFAULT_FIRST_LETTER_LOOK) {
                 rect.strokeWidth = 1.0
                 rect.stroke = Color.BLACK
                 rect.fill = Color.WHITE
-                cursor = Cursor.HAND
+                cursor = Cursor.DEFAULT
             }
             else if (it is CellAppearance && it == CellAppearance.DEFAULT_LOOK) {
                 rect.strokeWidth = 1.0
