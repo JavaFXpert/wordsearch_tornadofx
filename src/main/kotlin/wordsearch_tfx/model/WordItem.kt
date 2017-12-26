@@ -27,7 +27,6 @@ class WordItem(text: String) {
     var wordOrientation: WordOrientation = HORIZ
 
     init {
-        //TODO: Ascertain more Kotlin/TornadoFX-ish way to accomplish this
         placedProperty.addListener{
             e -> run {
                 if (e is BooleanProperty && e.getValue()) {
@@ -35,8 +34,6 @@ class WordItem(text: String) {
                     if (!wgModel.placeWord(this@WordItem)) {
                         wsController.showWordNotPlacedMessage(this@WordItem)
                         this@WordItem.placed = false
-                        //TODO: Make the listview reflect the checked state of the
-                        //      unplaced word (it currently remains checked)
                     }
                     else {}
                 }

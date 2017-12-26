@@ -49,7 +49,6 @@ class WordGridModel(): ViewModel() {
             else -> throw Exception();
         }
 
-    //TODO: Is there a more Kotlin-ish way to do this than to expose an add method?
     fun addWordGridCell(wgCell: WordGridCell) {
         wgCells.add(wgCell)
     }
@@ -60,8 +59,6 @@ class WordGridModel(): ViewModel() {
      * available position for a word before giving up and returning false.
      * If successful it places the word and returns true.
      */
-    //TODO: Rework this algorithm to cease unnecessarily iterating over all rows and cols
-    //TODO: Perhaps throw an exception if unsuccessful instead of returning false
     fun placeWord(word: WordItem): Boolean {
         var success: Boolean
         val startingRow = (Math.random() * numRows).toInt()
@@ -96,7 +93,6 @@ class WordGridModel(): ViewModel() {
                           orientation: WordOrientation): Boolean {
 
         // Check to make sure that the word may be placed there
-        //TODO: Pass an additional (appearance) argument
         if (!canPlaceWordSpecific(wordItem.text, row, col, orientation, DEFAULT_LOOK)) {
             return false;
         }
@@ -115,7 +111,6 @@ class WordGridModel(): ViewModel() {
      * and orientation.  It also specifies the appearance state that the cells
      * should have.
      */
-    //TODO: Implement the appearance state including a cellAppearance parameter
     fun canPlaceWordSpecific(word: String, row: Int, col: Int,
                                      orientation: WordOrientation,
                                      cellAppearance: CellAppearance): Boolean {

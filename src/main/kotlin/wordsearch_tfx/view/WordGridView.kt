@@ -41,7 +41,6 @@ class WordGridView : View() {
                     var wgCell = WordGridCell()
                     wgModel.addWordGridCell(wgCell)
 
-                    //TODO: How best to express this declaratively?
                     val wgCellNode = WordGridCellNode(CELL_WIDTH_HEIGHT, wgCell)
                     wgCellNode.move(0.1.seconds,
                             Point2D(col * CELL_WIDTH_HEIGHT + 7,
@@ -62,7 +61,6 @@ class WordGridView : View() {
                             dragging = false
                             wgCell = wgModel.wgCells.get(row * wgModel.numCols + col)
                             if (wgCell.wordItems.size > 0) {
-                                //TODO: Left off here
                                 dragOrigWge = wgCell.wordItems[0]
                                 if (dragOrigWge.gridRow == row &&
                                         dragOrigWge.gridCol == col) {
@@ -130,7 +128,6 @@ class WordGridView : View() {
                                 }
                             }
 
-                            //TODO: Consider creating function in wgModel that does both of these
                             wgModel.clearGridCells()
                             wgModel.refreshWordsOnGrid()
                         }

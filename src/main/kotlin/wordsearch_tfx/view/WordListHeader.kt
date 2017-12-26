@@ -12,7 +12,6 @@ class WordListHeader : View() {
 
     override val root = vbox {
         addClass(Styles.header)
-        //label("words").setId(Styles.title)
         hbox {
             addClass(Styles.addItemRoot)
             checkbox {

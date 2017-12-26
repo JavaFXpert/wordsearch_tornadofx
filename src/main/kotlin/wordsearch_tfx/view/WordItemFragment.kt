@@ -14,11 +14,6 @@ class WordItemFragment : ListCellFragment<WordItem>() {
     val word = WordItemModel(itemProperty)
 
     override val root = hbox {
-        // Enable if you want ellipsis instead of text overflow
-//        cellProperty.onChange { cell ->
-//            if (cell != null)
-//                maxWidthProperty().cleanBind(cell.widthProperty().minus(15))
-//        }
         addClass(Styles.itemRoot)
         checkbox(property = word.placed) {
             action {
@@ -45,7 +40,6 @@ class WordItemFragment : ListCellFragment<WordItem>() {
         button(graphic = Styles.closeIcon()) {
             removeWhen { parent.hoverProperty().not().or(editingProperty) }
             action {
-                //TODO: Make word immediately disappear from grid
                 if (item.placed) {
                     // Remove word from grid
                     wgModel.unplaceWord(item)
