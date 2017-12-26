@@ -82,8 +82,9 @@ class WordGridView : View() {
                         // currently being dragged.
                         if (!wgModel.fillLettersOnGrid.get()) {
                             if (dragging) {
-                                dragToRow = ((it.y + (dragOrigRow + 1) * CELL_WIDTH_HEIGHT) / CELL_WIDTH_HEIGHT).toInt()
-                                dragToColumn = ((it.x + (dragOrigColumn + 0.5) * CELL_WIDTH_HEIGHT) / CELL_WIDTH_HEIGHT).toInt()
+                                wgModel.gridCellsDefaultAppearance()
+                                dragToRow = ((it.y + (dragOrigRow + 0.75) * CELL_WIDTH_HEIGHT) / CELL_WIDTH_HEIGHT).toInt()
+                                dragToColumn = ((it.x + (dragOrigColumn + 0.25) * CELL_WIDTH_HEIGHT) / CELL_WIDTH_HEIGHT).toInt()
 
                                 // See if the word can be placed, giving the cells under
                                 // consideration the "dragged" look.

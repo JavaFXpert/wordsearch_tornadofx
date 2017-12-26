@@ -319,7 +319,7 @@ class WordGridModel(): ViewModel() {
     /**
      * Makes all cell have default appearance
      */
-    private fun gridCellsDefaultAppearance() {
+    fun gridCellsDefaultAppearance() {
         for (wgCell in wgCells) {
             wgCell.appearance.set(DEFAULT_LOOK)
         }
