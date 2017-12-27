@@ -16,7 +16,6 @@
 package wordsearch_tfx.view
 
 import javafx.scene.input.KeyCombination
-import todomvcfx.tornadofx.views.WordListView
 import wordsearch_tfx.app.Styles
 import tornadofx.*
 import wordsearch_tfx.controller.WordSearchController
